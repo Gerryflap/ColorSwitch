@@ -133,6 +133,7 @@ public class ColorInputView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        super.onTouchEvent(event);
         int action = event.getAction();
         if(action == MotionEvent.ACTION_DOWN) {
             startA = Math.atan2(getHeight()/2 - event.getY(), getWidth()/2 - event.getX());
@@ -140,10 +141,43 @@ public class ColorInputView extends View {
         } else if (action == MotionEvent.ACTION_MOVE) {
             double currentRotation = Math.atan2(getHeight()/2 - event.getY(), getWidth()/2 - event.getX());
             rotation += startA - currentRotation;
+            rotation %= 2*Math.PI;
             startA = currentRotation;
             invalidate();
             return true;
         }
         return false;
+    }
+
+    public double getInputRotation() {
+        return rotation;
+    }
+
+    public short[] getRGB() {
+        short[] rgb = new short[3];
+        for (int i = 0; i < 3; i++) {
+            double value = colorFunction(rotation, -i/3.0f);
+            Logger.getLogger("ColorInputView").log(Level.INFO, String.format("i: %d\t\t%d", i, (short) (value>=0?255*value:0)));
+            rgb[i] = (short) (value>=0?255*value:0);
+        }
+        return rgb;
+    }
+
+    //offset is times tau (2*pi)
+    private double colorFunction(double rotation, double offset) {
+        rotation = (rotation/(2*Math.PI) + offset + 2 - 0.25)%(1);
+        if (rotation >= 5f/6f || rotation <= 1f/6f) {
+            System.out.println(rotation);
+            return 1.0f;
+        } else if(rotation >= 2f/6f && rotation <= 4f/6f) {
+            return 0.0f;
+        } else {
+            if (rotation > 3f/6f) {
+                return (rotation - 4/6.0) * 6;
+            } else {
+                return (1 - (rotation - 1/6.0) * 6);
+            }
+        }
+
     }
 }
