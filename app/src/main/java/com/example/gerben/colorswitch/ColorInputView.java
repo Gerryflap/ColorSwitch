@@ -139,6 +139,7 @@ public class ColorInputView extends View {
             startA = Math.atan2(getHeight()/2 - event.getY(), getWidth()/2 - event.getX());
             return true;
         } else if (action == MotionEvent.ACTION_MOVE) {
+            this.callOnClick();
             double currentRotation = Math.atan2(getHeight()/2 - event.getY(), getWidth()/2 - event.getX());
             rotation += startA - currentRotation;
             rotation %= 2*Math.PI;

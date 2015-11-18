@@ -10,7 +10,7 @@ public class AsyncSend extends AsyncTask<Short, Void, Void> {
     @Override
     protected Void doInBackground(Short... params) {
         if (params.length == 3) {
-            ConnectionManager.getInstance().send(params[0]>0, params[1]>0, params[2]>0);
+            ConnectionManager.getInstance().send(params[0]>128, params[1]>128, params[2]>128);
         }
         return null;
     }
