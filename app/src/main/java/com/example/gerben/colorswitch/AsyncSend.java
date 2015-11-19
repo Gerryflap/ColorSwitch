@@ -14,4 +14,8 @@ public class AsyncSend extends AsyncTask<Short, Void, Void> {
         }
         return null;
     }
+
+    protected void onPostExecute(Void _) {
+        ConnectionManager.getInstance().updateStatus();
+    }
 }

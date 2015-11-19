@@ -2,6 +2,7 @@ package com.example.gerben.colorswitch;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.SeekBar;
 
 public class SwitchActivity extends AppCompatActivity {
 
@@ -13,6 +14,8 @@ public class SwitchActivity extends AppCompatActivity {
         asyncInit.execute();
         ColorCircleListener colorCircleListener = new ColorCircleListener(this);
         this.findViewById(R.id.view).setOnClickListener(colorCircleListener);
+        ((SeekBar)this.findViewById(R.id.seekBar)).setOnSeekBarChangeListener(colorCircleListener);
+        ConnectionManager.getInstance().addOnConnectionStatusChangeListener(colorCircleListener);
 
     }
 }
