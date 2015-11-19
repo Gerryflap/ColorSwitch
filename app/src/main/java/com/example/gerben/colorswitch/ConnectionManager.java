@@ -25,12 +25,9 @@ public class ConnectionManager {
         }
     }
 
-    public void send(boolean r, boolean g, boolean b) {
-        int out = r?1:0;
-        out += g?2:0;
-        out += b?4:0;
+    public void send(short r, short g, short b) {
         try {
-            this.out.write(out);
+            this.out.write(new byte[]{(byte) b, (byte) g, (byte) r});
             this.out.flush();
         } catch (IOException e) {
             e.printStackTrace();
